@@ -421,8 +421,8 @@ function generateRounds(n, mode) {
 
 function generateMetroRounds(n, metroKey) {
   const metro = METROS[metroKey];
-  // For metro: 3 pin (landmarks), 2 distance, 2 river-trace, 1 pop-circle, 2 population-rank
-  const types = ["pin","pin","pin","distance","distance","river","river","popCircle","population","population"];
+  // Metro mode: only pin + distance (no river, popCircle, population)
+  const types = ["pin","pin","pin","pin","pin","distance","distance","distance","distance","distance"];
   shuffle(types);
   const usedLandmarks = new Set();
   const rounds = [];

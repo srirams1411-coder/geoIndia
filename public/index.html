@@ -262,6 +262,14 @@ let circlePhase = "center"; // "center" or "radius"
 
 const PIN_COLORS = ["#7c3aed","#ef4444","#10b981","#f59e0b","#3b82f6","#ec4899","#14b8a6","#f97316"];
 
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 const METRO_VIEWS = {
   india: { center: [22, 80], zoom: 5 },
   mumbai: { center: [19.076, 72.8777], zoom: 11 },
@@ -453,8 +461,8 @@ function onMapClick(e) {
       circlePhase = "radius";
       document.getElementById("pinStatus").textContent = "Now tap again to set the circle radius";
     } else {
-      // Set radius
-      const dist = map.distance(L.latLng(circleCenter.lat, circleCenter.lng), e.latlng) / 1000; // km
+      // Set radius using same haversine as server
+      const dist = haversineKm(circleCenter.lat, circleCenter.lng, e.latlng.lat, e.latlng.lng);
       circleRadius = dist;
       if (circleShape) map.removeLayer(circleShape);
       circleShape = L.circle([circleCenter.lat, circleCenter.lng], { radius: dist * 1000, color: "#f59e0b", fillColor: "#fef3c7", fillOpacity: 0.3, weight: 2 }).addTo(map);
