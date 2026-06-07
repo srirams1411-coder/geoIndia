@@ -9,145 +9,147 @@
 <style>
   :root {
     --purple: #7c3aed; --purple-dark: #6d28d9; --purple-light: #a78bfa;
-    --green: #10b981; --red: #ef4444; --gold: #f59e0b;
+    --green: #10b981; --red: #ef4444; --gold: #f59e0b; --blue: #3b82f6;
     --bg: #f0f2f5; --card: #ffffff; --card2: #e8eaed;
     --text: #1a1a2e; --text-dim: #5f6368;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow: hidden; }
-
-  /* ── Screens ── */
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow: hidden; }
   .screen { display: none; width: 100vw; height: 100vh; flex-direction: column; align-items: center; justify-content: center; }
   .screen.active { display: flex; }
 
-  /* ── Home ── */
+  /* Home */
   #home { gap: 24px; text-align: center; }
-  #home h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(135deg, var(--purple-light), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  #home h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(135deg, #f97316, var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   #home p { color: var(--text-dim); font-size: 1.1rem; margin-top: -12px; }
   .home-buttons { display: flex; gap: 16px; }
 
-  /* ── Buttons ── */
+  /* Buttons */
   .btn { padding: 14px 32px; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
   .btn-primary { background: var(--purple); color: #fff; }
   .btn-primary:hover { background: var(--purple-dark); transform: translateY(-2px); }
-  .btn-secondary { background: var(--card2); color: var(--text); border: 2px solid var(--purple); }
-  .btn-secondary:hover { background: var(--purple); }
+  .btn-secondary { background: var(--card); color: var(--text); border: 2px solid var(--purple); }
+  .btn-secondary:hover { background: var(--purple); color: #fff; }
   .btn-green { background: var(--green); color: #fff; }
   .btn-green:hover { filter: brightness(1.1); transform: translateY(-2px); }
   .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
-  /* ── Inputs ── */
+  /* Inputs */
   .input-group { display: flex; flex-direction: column; gap: 8px; }
   .input-group label { font-size: 0.85rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
-  input[type="text"] { padding: 14px 18px; border-radius: 12px; border: 2px solid var(--card2); background: #fff; color: var(--text); font-size: 1.1rem; text-align: center; outline: none; transition: border-color 0.2s; }
-  input[type="text"]:focus { border-color: var(--purple); }
+  input[type="text"], input[type="number"] { padding: 14px 18px; border-radius: 12px; border: 2px solid var(--card2); background: #fff; color: var(--text); font-size: 1.1rem; text-align: center; outline: none; }
+  input:focus { border-color: var(--purple); }
 
-  /* ── Join / Host forms ── */
-  #joinScreen, #hostScreen { gap: 20px; text-align: center; }
-  #joinScreen h2, #hostScreen h2 { font-size: 1.8rem; }
+  /* Forms */
   .form-card { background: var(--card); padding: 32px; border-radius: 20px; display: flex; flex-direction: column; gap: 16px; min-width: 320px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
   .back-link { color: var(--text-dim); cursor: pointer; font-size: 0.9rem; margin-top: 8px; }
-  .back-link:hover { color: var(--text); }
 
-  /* ── Lobby ── */
+  /* Lobby */
   #lobby { gap: 20px; text-align: center; }
   .room-code { font-size: 3rem; font-weight: 800; letter-spacing: 8px; color: var(--purple); background: var(--card); padding: 16px 40px; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
   .player-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 500px; }
-  .player-chip { background: var(--card2); padding: 8px 18px; border-radius: 999px; font-size: 0.95rem; }
-  #waitMsg { color: var(--text-dim); font-size: 0.9rem; }
+  .player-chip { background: var(--card2); padding: 8px 18px; border-radius: 999px; }
 
-  /* ── Game ── */
+  /* Game */
   #game { padding: 0; }
   .game-header { width: 100%; padding: 12px 24px; background: var(--card); display: flex; justify-content: space-between; align-items: center; z-index: 1000; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-  .round-info { font-weight: 700; font-size: 1rem; }
-  .city-question { font-size: 1.3rem; font-weight: 700; color: var(--gold); text-align: center; }
+  .round-info { font-weight: 700; }
+  .round-type-badge { font-size: 0.7rem; padding: 3px 10px; border-radius: 999px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-left: 8px; }
+  .badge-pin { background: #dbeafe; color: #1e40af; }
+  .badge-distance { background: #fce7f3; color: #9d174d; }
+  .badge-state { background: #d1fae5; color: #065f46; }
+  .badge-river { background: #e0e7ff; color: #3730a3; }
+  .badge-population { background: #fef3c7; color: #92400e; }
+  .city-question { font-size: 1.2rem; font-weight: 700; color: var(--purple-dark); text-align: center; flex: 1; padding: 0 12px; }
   .timer { font-size: 1.5rem; font-weight: 800; min-width: 48px; text-align: center; }
   .timer.urgent { color: var(--red); animation: pulse 0.5s infinite alternate; }
   @keyframes pulse { to { transform: scale(1.15); } }
-  #map { flex: 1; width: 100%; }
+  #map { flex: 1; width: 100%; position: relative; }
   .confirm-bar { width: 100%; padding: 12px 24px; background: var(--card); display: flex; justify-content: center; gap: 16px; align-items: center; z-index: 1000; flex-shrink: 0; box-shadow: 0 -2px 8px rgba(0,0,0,0.06); }
   .confirm-bar .status { color: var(--text-dim); font-size: 0.9rem; }
   .guess-count-bar { font-size: 0.85rem; color: var(--text-dim); }
 
-  /* ── Results ── */
-  #results { gap: 16px; padding: 24px; overflow-y: auto; }
-  #results h2 { font-size: 1.6rem; }
-  .results-city { color: var(--gold); font-size: 1.2rem; font-weight: 600; }
+  /* Distance input overlay */
+  .distance-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 1001; background: var(--card); border-radius: 20px; padding: 32px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); text-align: center; display: none; min-width: 300px; }
+  .distance-overlay.active { display: block; }
+  .distance-overlay h3 { font-size: 1rem; color: var(--text-dim); margin-bottom: 8px; }
+  .distance-overlay .cities-pair { font-size: 1.4rem; font-weight: 700; color: var(--purple-dark); margin-bottom: 20px; }
+  .distance-overlay input { font-size: 2rem; width: 180px; font-weight: 700; }
+  .distance-overlay .unit { font-size: 1.2rem; color: var(--text-dim); margin-left: 8px; }
+
+  /* Population rank overlay */
+  .pop-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 1001; background: var(--card); border-radius: 20px; padding: 32px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); text-align: center; display: none; min-width: 320px; }
+  .pop-overlay.active { display: block; }
+  .pop-overlay h3 { margin-bottom: 16px; color: var(--text-dim); }
+  .pop-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .pop-item { background: var(--card2); padding: 14px 20px; border-radius: 12px; cursor: grab; font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 12px; user-select: none; transition: background 0.15s; }
+  .pop-item:active { cursor: grabbing; background: #d5d7db; }
+  .pop-item .rank-num { width: 28px; height: 28px; border-radius: 50%; background: var(--purple); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; flex-shrink: 0; }
+  .pop-item.dragging { opacity: 0.4; }
+
+  /* Results */
+  #results { gap: 14px; padding: 24px; overflow-y: auto; }
+  #results h2 { font-size: 1.5rem; }
+  .results-answer { color: var(--green); font-size: 1.05rem; font-weight: 600; }
   .results-table { width: 100%; max-width: 600px; border-collapse: collapse; }
   .results-table th { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; padding: 8px 12px; text-align: left; }
   .results-table td { padding: 10px 12px; border-top: 1px solid var(--card2); }
-  .results-table tr:first-child td { border-top: none; }
   .rank-1 { color: var(--gold); font-weight: 700; }
   .dist-val { color: var(--text-dim); font-size: 0.9rem; }
   .score-val { font-weight: 700; color: var(--green); }
   .no-guess { color: var(--red); font-style: italic; }
-  #resultsMap { width: 100%; max-width: 600px; height: 250px; border-radius: 12px; overflow: hidden; }
+  #resultsMap { width: 100%; max-width: 600px; height: 200px; border-radius: 12px; overflow: hidden; }
+  .pop-correct { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .pop-correct-item { background: var(--card2); padding: 6px 14px; border-radius: 8px; font-size: 0.9rem; }
+  .pop-correct-item .pop-val { color: var(--text-dim); font-size: 0.8rem; }
 
-  /* ── Game Over ── */
+  /* Game Over */
   #gameOver { gap: 20px; text-align: center; }
   #gameOver h2 { font-size: 2.2rem; }
   .winner-name { font-size: 2.5rem; font-weight: 800; color: var(--gold); }
   .final-table { width: 100%; max-width: 400px; border-collapse: collapse; }
   .final-table td { padding: 12px 16px; border-top: 1px solid var(--card2); font-size: 1.1rem; }
   .final-table .rank { width: 40px; font-weight: 800; }
-  .final-table .pts { text-align: right; font-weight: 700; color: var(--purple-light); }
+  .final-table .pts { text-align: right; font-weight: 700; color: var(--purple); }
   .medal { font-size: 1.4rem; }
 
-  /* ── Error toast ── */
   .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--red); color: #fff; padding: 12px 24px; border-radius: 12px; font-weight: 600; z-index: 9999; display: none; }
   .toast.show { display: block; animation: slideDown 0.3s; }
   @keyframes slideDown { from { opacity: 0; top: 0; } to { opacity: 1; top: 20px; } }
-
-  /* Pin colors */
-  .pin-player { filter: hue-rotate(260deg); }
-  .pin-actual { filter: hue-rotate(90deg); }
 </style>
 </head>
 <body>
 
 <div id="toast" class="toast"></div>
 
-<!-- ── Home ── -->
 <div id="home" class="screen active">
   <h1>GeoPin India</h1>
-  <p>Pin Indian cities on the map. Closest pin wins.</p>
+  <p>5 game modes. Pin, estimate, rank. Closest wins.</p>
   <div class="home-buttons">
     <button class="btn btn-primary" onclick="showScreen('hostScreen')">Host Game</button>
     <button class="btn btn-secondary" onclick="showScreen('joinScreen')">Join Game</button>
   </div>
 </div>
 
-<!-- ── Host ── -->
 <div id="hostScreen" class="screen">
   <h2>Host a Game</h2>
   <div class="form-card">
-    <div class="input-group">
-      <label>Your Name</label>
-      <input type="text" id="hostName" placeholder="Enter name" maxlength="20" />
-    </div>
+    <div class="input-group"><label>Your Name</label><input type="text" id="hostName" placeholder="Enter name" maxlength="20" /></div>
     <button class="btn btn-primary" onclick="createRoom()">Create Room</button>
   </div>
   <span class="back-link" onclick="showScreen('home')">← Back</span>
 </div>
 
-<!-- ── Join ── -->
 <div id="joinScreen" class="screen">
   <h2>Join a Game</h2>
   <div class="form-card">
-    <div class="input-group">
-      <label>Your Name</label>
-      <input type="text" id="joinName" placeholder="Enter name" maxlength="20" />
-    </div>
-    <div class="input-group">
-      <label>Room Code</label>
-      <input type="text" id="joinCode" placeholder="ABCDE" maxlength="5" style="text-transform:uppercase;letter-spacing:6px;font-size:1.4rem;" />
-    </div>
+    <div class="input-group"><label>Your Name</label><input type="text" id="joinName" placeholder="Enter name" maxlength="20" /></div>
+    <div class="input-group"><label>Room Code</label><input type="text" id="joinCode" placeholder="ABCDE" maxlength="5" style="text-transform:uppercase;letter-spacing:6px;font-size:1.4rem;" /></div>
     <button class="btn btn-primary" onclick="joinRoom()">Join</button>
   </div>
   <span class="back-link" onclick="showScreen('home')">← Back</span>
 </div>
 
-<!-- ── Lobby ── -->
 <div id="lobby" class="screen">
   <h2>Waiting Room</h2>
   <div class="room-code" id="lobbyCode"></div>
@@ -157,84 +159,74 @@
   <button class="btn btn-green" id="startBtn" style="display:none;" onclick="startGame()">Start Game</button>
 </div>
 
-<!-- ── Game (Map) ── -->
 <div id="game" class="screen">
   <div class="game-header">
-    <span class="round-info" id="roundInfo">Round 1/10</span>
-    <span class="city-question" id="cityQuestion">Pin: ???</span>
-    <span class="timer" id="timer">15</span>
+    <div>
+      <span class="round-info" id="roundInfo">Round 1/10</span>
+      <span class="round-type-badge" id="roundBadge"></span>
+    </div>
+    <span class="city-question" id="cityQuestion"></span>
+    <span class="timer" id="timer">20</span>
   </div>
-  <div id="map"></div>
+  <div id="map">
+    <div class="distance-overlay" id="distanceOverlay">
+      <h3>How far apart are these cities?</h3>
+      <div class="cities-pair" id="distCities"></div>
+      <div><input type="number" id="distInput" placeholder="0" min="0" max="9999" /><span class="unit">km</span></div>
+    </div>
+    <div class="pop-overlay" id="popOverlay">
+      <h3>Rank by population (highest first)</h3>
+      <ul class="pop-list" id="popList"></ul>
+    </div>
+  </div>
   <div class="confirm-bar">
-    <span class="status" id="pinStatus">Tap the map to place your pin</span>
-    <button class="btn btn-green" id="confirmBtn" disabled onclick="confirmGuess()">Confirm Pin</button>
+    <span class="status" id="pinStatus">Waiting...</span>
+    <button class="btn btn-green" id="confirmBtn" disabled onclick="confirmGuess()">Confirm</button>
     <span class="guess-count-bar" id="guessCount"></span>
   </div>
 </div>
 
-<!-- ── Round Results ── -->
 <div id="results" class="screen">
   <h2 id="resultsTitle">Round Results</h2>
-  <div class="results-city" id="resultsCity"></div>
+  <div class="results-answer" id="resultsAnswer"></div>
   <div id="resultsMap"></div>
+  <div id="popResults" style="display:none;"></div>
   <table class="results-table" id="resultsTable"></table>
-  <button class="btn btn-primary" id="nextRoundBtn" style="display:none;" onclick="nextRound()">Next Round →</button>
+  <button class="btn btn-primary" id="nextRoundBtn" style="display:none;" onclick="nextRound()">Next Round</button>
   <span id="waitNextMsg" style="color:var(--text-dim);font-size:0.9rem;"></span>
 </div>
 
-<!-- ── Game Over ── -->
 <div id="gameOver" class="screen">
   <h2>Game Over!</h2>
   <div class="winner-name" id="winnerName"></div>
-  <p style="color:var(--text-dim);">🏆 Winner!</p>
+  <p style="color:var(--text-dim);">Winner!</p>
   <table class="final-table" id="finalTable"></table>
   <button class="btn btn-primary" onclick="location.reload()">Play Again</button>
 </div>
 
 <script>
-// ── State ───────────────────────────────────────────────────────────
 let ws, map, marker, resultsMapObj;
-let myRole = null; // "host" | "player"
-let myGuess = null;
-let confirmed = false;
-let timerInterval = null;
+let myRole = null, myGuess = null, confirmed = false, timerInterval = null, currentRoundType = null;
+let popOrder = [];
 const PIN_COLORS = ["#7c3aed","#ef4444","#10b981","#f59e0b","#3b82f6","#ec4899","#14b8a6","#f97316"];
 
-// ── Screens ─────────────────────────────────────────────────────────
 function showScreen(id) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   if (id === "game" && !map) initMap();
 }
-
 function toast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
+  const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show");
   setTimeout(() => t.classList.remove("show"), 3000);
 }
 
-// ── WebSocket ───────────────────────────────────────────────────────
 function connect() {
   const proto = location.protocol === "https:" ? "wss:" : "ws:";
-  const url = `${proto}//${location.host}`;
   return new Promise((resolve, reject) => {
-    try {
-      ws = new WebSocket(url);
-    } catch (e) {
-      toast("Cannot connect — is the server running?");
-      return reject(e);
-    }
-    ws.onopen = () => {
-      console.log("WebSocket connected");
-      resolve();
-    };
-    ws.onerror = (e) => {
-      console.error("WebSocket error", e);
-      toast("Connection failed — make sure the server is running (npm start)");
-      reject(e);
-    };
-    ws.onclose = () => toast("Disconnected from server");
+    try { ws = new WebSocket(`${proto}//${location.host}`); } catch(e) { toast("Cannot connect"); return reject(e); }
+    ws.onopen = () => resolve();
+    ws.onerror = () => { toast("Connection failed"); reject(); };
+    ws.onclose = () => toast("Disconnected");
     ws.onmessage = (e) => handleMsg(JSON.parse(e.data));
   });
 }
@@ -244,227 +236,280 @@ function handleMsg(msg) {
     case "roomCreated":
       document.getElementById("lobbyCode").textContent = msg.code;
       document.getElementById("startBtn").style.display = "inline-block";
-      document.getElementById("waitMsg").textContent = "Waiting for players to join...";
-      showScreen("lobby");
-      break;
-
+      document.getElementById("waitMsg").textContent = "Waiting for players...";
+      showScreen("lobby"); break;
     case "joined":
       document.getElementById("lobbyCode").textContent = msg.code;
       document.getElementById("startBtn").style.display = "none";
       document.getElementById("waitMsg").textContent = "Waiting for host to start...";
-      showScreen("lobby");
-      break;
-
-    case "error":
-      toast(msg.msg);
-      break;
-
-    case "playerList": {
-      const chips = document.getElementById("playerChips");
-      chips.innerHTML = msg.players.map(p =>
-        `<div class="player-chip">${p.name}</div>`
-      ).join("");
-      break;
-    }
-
-    case "newRound":
-      startRound(msg);
-      break;
-
+      showScreen("lobby"); break;
+    case "error": toast(msg.msg); break;
+    case "playerList":
+      document.getElementById("playerChips").innerHTML = msg.players.map(p => `<div class="player-chip">${p.name}</div>`).join(""); break;
+    case "newRound": startRound(msg); break;
     case "guessAck":
       confirmed = true;
-      document.getElementById("pinStatus").textContent = "✓ Pin locked in!";
-      document.getElementById("confirmBtn").disabled = true;
-      break;
-
+      document.getElementById("pinStatus").textContent = "Locked in!";
+      document.getElementById("confirmBtn").disabled = true; break;
     case "guessCount":
-      document.getElementById("guessCount").textContent = `${msg.count}/${msg.total} guessed`;
-      break;
-
-    case "roundResults":
-      showResults(msg);
-      break;
-
-    case "gameOver":
-      showGameOver(msg);
-      break;
-
-    case "hostLeft":
-      toast("Host left the game");
-      setTimeout(() => location.reload(), 2000);
-      break;
+      document.getElementById("guessCount").textContent = `${msg.count}/${msg.total} answered`; break;
+    case "roundResults": showResults(msg); break;
+    case "gameOver": showGameOver(msg); break;
+    case "hostLeft": toast("Host left"); setTimeout(() => location.reload(), 2000); break;
   }
 }
 
-// ── Host / Join ─────────────────────────────────────────────────────
 async function createRoom() {
-  const name = document.getElementById("hostName").value.trim();
-  if (!name) return toast("Enter your name");
+  if (!document.getElementById("hostName").value.trim()) return toast("Enter your name");
   myRole = "host";
-  try {
-    await connect();
-    ws.send(JSON.stringify({ type: "createRoom" }));
-  } catch (e) {
-    console.error("Create room failed:", e);
-  }
+  try { await connect(); ws.send(JSON.stringify({ type: "createRoom" })); } catch(e) {}
 }
-
 async function joinRoom() {
   const name = document.getElementById("joinName").value.trim();
   const code = document.getElementById("joinCode").value.trim().toUpperCase();
   if (!name) return toast("Enter your name");
-  if (!code || code.length < 5) return toast("Enter a valid room code");
+  if (code.length < 5) return toast("Enter a valid room code");
   myRole = "player";
-  try {
-    await connect();
-    ws.send(JSON.stringify({ type: "joinRoom", code, name }));
-  } catch (e) {
-    console.error("Join room failed:", e);
-  }
+  try { await connect(); ws.send(JSON.stringify({ type: "joinRoom", code, name })); } catch(e) {}
 }
+function startGame() { ws.send(JSON.stringify({ type: "startGame" })); }
+function nextRound() { ws.send(JSON.stringify({ type: "nextRound" })); }
 
-function startGame() {
-  ws.send(JSON.stringify({ type: "startGame" }));
-}
-
-function nextRound() {
-  ws.send(JSON.stringify({ type: "nextRound" }));
-}
-
-// ── Map ─────────────────────────────────────────────────────────────
 function initMap() {
-  map = L.map("map", {
-    center: [22, 80], zoom: 5, minZoom: 4, maxZoom: 12,
-    worldCopyJump: true, zoomControl: false
-  });
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
-    attribution: '© OpenStreetMap © CARTO',
-    maxZoom: 19
-  }).addTo(map);
+  map = L.map("map", { center: [22, 80], zoom: 5, minZoom: 4, maxZoom: 12, worldCopyJump: true, zoomControl: false });
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", { attribution: '© OSM © CARTO', maxZoom: 19 }).addTo(map);
   L.control.zoom({ position: "bottomright" }).addTo(map);
+  map.on("click", onMapClick);
+}
 
-  map.on("click", (e) => {
-    if (confirmed) return;
-    myGuess = { lat: e.latlng.lat, lng: e.latlng.lng };
-    if (marker) map.removeLayer(marker);
-    marker = L.circleMarker([e.latlng.lat, e.latlng.lng], {
-      radius: 10, color: "#7c3aed", fillColor: "#a78bfa", fillOpacity: 0.9, weight: 3
-    }).addTo(map);
-    document.getElementById("confirmBtn").disabled = false;
-    document.getElementById("pinStatus").textContent = "Pin placed! Confirm or move it.";
-  });
+function onMapClick(e) {
+  if (confirmed || currentRoundType === "distance" || currentRoundType === "population") return;
+  myGuess = { lat: e.latlng.lat, lng: e.latlng.lng };
+  if (marker) map.removeLayer(marker);
+  marker = L.circleMarker([e.latlng.lat, e.latlng.lng], { radius: 10, color: "#7c3aed", fillColor: "#a78bfa", fillOpacity: 0.9, weight: 3 }).addTo(map);
+  document.getElementById("confirmBtn").disabled = false;
+  document.getElementById("pinStatus").textContent = "Pin placed — confirm or move it.";
 }
 
 function confirmGuess() {
-  if (!myGuess) return;
-  ws.send(JSON.stringify({ type: "guess", lat: myGuess.lat, lng: myGuess.lng }));
+  if (confirmed) return;
+  let data = null;
+  if (currentRoundType === "pin" || currentRoundType === "state" || currentRoundType === "river") {
+    if (!myGuess) return;
+    data = { lat: myGuess.lat, lng: myGuess.lng };
+  } else if (currentRoundType === "distance") {
+    const val = parseInt(document.getElementById("distInput").value);
+    if (isNaN(val) || val < 0) return toast("Enter a distance in km");
+    data = { answer: val };
+  } else if (currentRoundType === "population") {
+    const list = document.getElementById("popList");
+    data = { order: [...list.children].map(li => li.dataset.city) };
+  }
+  ws.send(JSON.stringify({ type: "guess", data }));
 }
 
-// ── Round ───────────────────────────────────────────────────────────
 function startRound(msg) {
-  myGuess = null;
-  confirmed = false;
+  myGuess = null; confirmed = false;
   if (marker && map) map.removeLayer(marker);
   marker = null;
+  currentRoundType = msg.roundType;
+
+  document.getElementById("distanceOverlay").classList.remove("active");
+  document.getElementById("popOverlay").classList.remove("active");
 
   showScreen("game");
   setTimeout(() => { if (map) map.invalidateSize(); }, 100);
   map.setView([22, 80], 5);
 
   document.getElementById("roundInfo").textContent = `Round ${msg.round}/${msg.total}`;
-  document.getElementById("cityQuestion").textContent = `📍 Pin: ${msg.city}, ${msg.country}`;
-  document.getElementById("pinStatus").textContent = "Tap the map to place your pin";
-  document.getElementById("confirmBtn").disabled = true;
   document.getElementById("guessCount").textContent = "";
+  document.getElementById("confirmBtn").disabled = true;
+
+  const badge = document.getElementById("roundBadge");
+  const labels = { pin: "Pin City", distance: "Distance", state: "State Locator", river: "River Tracer", population: "Pop Rank" };
+  badge.textContent = labels[msg.roundType];
+  badge.className = `round-type-badge badge-${msg.roundType}`;
+
+  const q = document.getElementById("cityQuestion");
+  const status = document.getElementById("pinStatus");
+
+  switch (msg.roundType) {
+    case "pin":
+      q.textContent = `Pin: ${msg.city}, ${msg.state}`;
+      status.textContent = "Tap the map to place your pin"; break;
+    case "state":
+      q.textContent = `Pin the center of: ${msg.stateName}`;
+      status.textContent = "Tap where this state is"; break;
+    case "river":
+      q.textContent = `Pin a point on the: ${msg.riverName}`;
+      status.textContent = "Tap anywhere along this river"; break;
+    case "distance":
+      q.textContent = "Estimate the distance";
+      status.textContent = "Type your estimate and confirm";
+      document.getElementById("distCities").textContent = `${msg.city1.name} ↔ ${msg.city2.name}`;
+      document.getElementById("distInput").value = "";
+      document.getElementById("distanceOverlay").classList.add("active");
+      document.getElementById("confirmBtn").disabled = false;
+      setTimeout(() => document.getElementById("distInput").focus(), 200);
+      break;
+    case "population":
+      q.textContent = "Rank: highest population first";
+      status.textContent = "Drag to reorder, then confirm";
+      setupPopList(msg.cities);
+      document.getElementById("popOverlay").classList.add("active");
+      document.getElementById("confirmBtn").disabled = false;
+      break;
+  }
 
   let t = msg.timeLimit;
   const timerEl = document.getElementById("timer");
-  timerEl.textContent = t;
-  timerEl.classList.remove("urgent");
+  timerEl.textContent = t; timerEl.classList.remove("urgent");
   clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     t--;
     timerEl.textContent = t;
     if (t <= 5) timerEl.classList.add("urgent");
-    if (t <= 0) {
-      clearInterval(timerInterval);
-      // auto-submit if pin placed but not confirmed
-      if (myGuess && !confirmed) confirmGuess();
-    }
+    if (t <= 0) { clearInterval(timerInterval); if (!confirmed) confirmGuess(); }
   }, 1000);
 }
 
-// ── Results ─────────────────────────────────────────────────────────
+// ── Population drag & drop ──
+function setupPopList(cities) {
+  const list = document.getElementById("popList");
+  list.innerHTML = "";
+  cities.forEach((c, i) => {
+    const li = document.createElement("li");
+    li.className = "pop-item"; li.draggable = true; li.dataset.city = c.name;
+    li.innerHTML = `<span class="rank-num">${i+1}</span><span>${c.name}</span><span style="color:var(--text-dim);font-size:0.8rem;margin-left:auto;">${c.state}</span>`;
+
+    li.addEventListener("dragstart", () => li.classList.add("dragging"));
+    li.addEventListener("dragend", () => { li.classList.remove("dragging"); updatePopRanks(); });
+    li.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      const dragging = list.querySelector(".dragging");
+      if (dragging && dragging !== li) {
+        const rect = li.getBoundingClientRect();
+        if (e.clientY < rect.top + rect.height / 2) list.insertBefore(dragging, li);
+        else list.insertBefore(dragging, li.nextSibling);
+      }
+    });
+
+    // Touch support
+    li.addEventListener("touchstart", () => li.classList.add("dragging"), { passive: true });
+    li.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      const el = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (el) {
+        const sib = el.closest(".pop-item");
+        if (sib && sib !== li) {
+          const rect = sib.getBoundingClientRect();
+          if (touch.clientY < rect.top + rect.height / 2) list.insertBefore(li, sib);
+          else list.insertBefore(li, sib.nextSibling);
+        }
+      }
+    }, { passive: false });
+    li.addEventListener("touchend", () => { li.classList.remove("dragging"); updatePopRanks(); });
+
+    list.appendChild(li);
+  });
+}
+
+function updatePopRanks() {
+  [...document.getElementById("popList").children].forEach((li, i) => {
+    li.querySelector(".rank-num").textContent = i + 1;
+  });
+}
+
+// ── Results ──
 function showResults(msg) {
   clearInterval(timerInterval);
   showScreen("results");
-
   document.getElementById("resultsTitle").textContent = `Round ${msg.round}/${msg.total}`;
-  document.getElementById("resultsCity").textContent = `📍 ${msg.city.name}, ${msg.city.country}`;
+  document.getElementById("popResults").style.display = "none";
+  document.getElementById("resultsMap").style.display = "block";
 
-  // Mini results map
+  const answerEl = document.getElementById("resultsAnswer");
+
   if (resultsMapObj) resultsMapObj.remove();
-  resultsMapObj = L.map("resultsMap", { zoomControl: false, attributionControl: false })
-    .setView([msg.city.lat, msg.city.lng], 6);
+  resultsMapObj = L.map("resultsMap", { zoomControl: false, attributionControl: false }).setView([22, 80], 5);
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", { maxZoom: 19 }).addTo(resultsMapObj);
 
-  // Actual city marker (star)
-  L.circleMarker([msg.city.lat, msg.city.lng], {
-    radius: 10, color: "#10b981", fillColor: "#10b981", fillOpacity: 1, weight: 3
-  }).addTo(resultsMapObj).bindTooltip("Actual", { permanent: true, className: "" });
+  const bounds = [];
 
-  // Player pins
-  const bounds = [[msg.city.lat, msg.city.lng]];
-  msg.results.forEach((r, i) => {
-    if (r.guessLat !== null) {
-      const color = PIN_COLORS[i % PIN_COLORS.length];
-      L.circleMarker([r.guessLat, r.guessLng], {
-        radius: 7, color, fillColor: color, fillOpacity: 0.8, weight: 2
-      }).addTo(resultsMapObj).bindTooltip(r.name, { permanent: false });
-      L.polyline([[msg.city.lat, msg.city.lng], [r.guessLat, r.guessLng]], {
-        color, weight: 1, dashArray: "4 4", opacity: 0.5
-      }).addTo(resultsMapObj);
-      bounds.push([r.guessLat, r.guessLng]);
+  switch (msg.roundType) {
+    case "pin": case "state": {
+      answerEl.textContent = `Answer: ${msg.answer.label}`;
+      L.circleMarker([msg.answer.lat, msg.answer.lng], { radius: 10, color: "#10b981", fillColor: "#10b981", fillOpacity: 1, weight: 3 }).addTo(resultsMapObj).bindTooltip("Actual", { permanent: true });
+      bounds.push([msg.answer.lat, msg.answer.lng]);
+      msg.results.forEach((r, i) => {
+        if (r.guess?.lat != null) {
+          const c = PIN_COLORS[i % PIN_COLORS.length];
+          L.circleMarker([r.guess.lat, r.guess.lng], { radius: 7, color: c, fillColor: c, fillOpacity: 0.8, weight: 2 }).addTo(resultsMapObj).bindTooltip(r.name);
+          L.polyline([[msg.answer.lat, msg.answer.lng], [r.guess.lat, r.guess.lng]], { color: c, weight: 1, dashArray: "4 4", opacity: 0.5 }).addTo(resultsMapObj);
+          bounds.push([r.guess.lat, r.guess.lng]);
+        }
+      });
+      break;
     }
-  });
+    case "river": {
+      answerEl.textContent = `River: ${msg.answer.label}`;
+      L.polyline(msg.answer.waypoints, { color: "#3b82f6", weight: 4 }).addTo(resultsMapObj);
+      msg.answer.waypoints.forEach(p => bounds.push(p));
+      msg.results.forEach((r, i) => {
+        if (r.guess?.lat != null) {
+          const c = PIN_COLORS[i % PIN_COLORS.length];
+          L.circleMarker([r.guess.lat, r.guess.lng], { radius: 7, color: c, fillColor: c, fillOpacity: 0.8, weight: 2 }).addTo(resultsMapObj).bindTooltip(r.name);
+          bounds.push([r.guess.lat, r.guess.lng]);
+        }
+      });
+      break;
+    }
+    case "distance": {
+      answerEl.textContent = `Actual: ${msg.answer.actualDistance.toLocaleString()} km`;
+      const c1 = msg.answer.city1, c2 = msg.answer.city2, lbl = msg.answer.label.split(" to ");
+      L.circleMarker([c1.lat, c1.lng], { radius: 8, color: "#7c3aed", fillColor: "#a78bfa", fillOpacity: 1 }).addTo(resultsMapObj).bindTooltip(lbl[0], { permanent: true });
+      L.circleMarker([c2.lat, c2.lng], { radius: 8, color: "#7c3aed", fillColor: "#a78bfa", fillOpacity: 1 }).addTo(resultsMapObj).bindTooltip(lbl[1], { permanent: true });
+      L.polyline([[c1.lat, c1.lng], [c2.lat, c2.lng]], { color: "#7c3aed", weight: 2, dashArray: "6 4" }).addTo(resultsMapObj);
+      bounds.push([c1.lat, c1.lng], [c2.lat, c2.lng]);
+      break;
+    }
+    case "population": {
+      document.getElementById("resultsMap").style.display = "none";
+      document.getElementById("popResults").style.display = "block";
+      answerEl.textContent = "Correct order:";
+      document.getElementById("popResults").innerHTML = `<div class="pop-correct">${msg.answer.correctOrder.map((c, i) => `<div class="pop-correct-item"><strong>${i+1}.</strong> ${c.name} <span class="pop-val">(${c.pop} lakh)</span></div>`).join("")}</div>`;
+      break;
+    }
+  }
+
   if (bounds.length > 1) resultsMapObj.fitBounds(bounds, { padding: [30, 30] });
 
-  // Table
   const table = document.getElementById("resultsTable");
-  table.innerHTML = `<tr><th>#</th><th>Player</th><th>Distance</th><th>Points</th><th>Total</th></tr>`;
+  const hdr = msg.roundType === "distance" ? "Estimate" : msg.roundType === "population" ? "Correct" : "Distance";
+  table.innerHTML = `<tr><th>#</th><th>Player</th><th>${hdr}</th><th>Pts</th><th>Total</th></tr>`;
   msg.results.forEach((r, i) => {
-    const rank = i === 0 ? 'class="rank-1"' : "";
-    const dist = r.distance !== null ? `<span class="dist-val">${r.distance.toLocaleString()} km</span>` : `<span class="no-guess">No guess</span>`;
-    table.innerHTML += `<tr ${rank}>
-      <td>${i + 1}</td><td>${r.name}</td><td>${dist}</td>
-      <td><span class="score-val">+${r.roundScore}</span></td>
-      <td>${r.totalScore.toLocaleString()}</td>
-    </tr>`;
+    let detail = '<span class="no-guess">—</span>';
+    if (r.distance !== null) {
+      if (msg.roundType === "distance") detail = `<span class="dist-val">${(r.guess?.answer||0).toLocaleString()} km (off by ${r.distance.toLocaleString()})</span>`;
+      else if (msg.roundType === "population") detail = `<span class="dist-val">${r.distance}/4</span>`;
+      else detail = `<span class="dist-val">${r.distance.toLocaleString()} km</span>`;
+    }
+    table.innerHTML += `<tr ${i===0?'class="rank-1"':''}><td>${i+1}</td><td>${r.name}</td><td>${detail}</td><td><span class="score-val">+${r.roundScore}</span></td><td>${r.totalScore.toLocaleString()}</td></tr>`;
   });
 
-  // Next round button (host only)
   document.getElementById("nextRoundBtn").style.display = myRole === "host" ? "inline-block" : "none";
   document.getElementById("waitNextMsg").textContent = myRole === "host" ? "" : "Waiting for host...";
 }
 
-// ── Game Over ───────────────────────────────────────────────────────
 function showGameOver(msg) {
-  clearInterval(timerInterval);
-  showScreen("gameOver");
-
-  const lb = msg.leaderboard;
-  document.getElementById("winnerName").textContent = lb[0]?.name || "???";
-  const medals = ["🥇", "🥈", "🥉"];
-  const table = document.getElementById("finalTable");
-  table.innerHTML = lb.map((p, i) => `
-    <tr>
-      <td class="rank"><span class="medal">${medals[i] || (i + 1)}</span></td>
-      <td>${p.name}</td>
-      <td class="pts">${p.score.toLocaleString()}</td>
-    </tr>
-  `).join("");
+  clearInterval(timerInterval); showScreen("gameOver");
+  document.getElementById("winnerName").textContent = msg.leaderboard[0]?.name || "???";
+  const medals = ["🥇","🥈","🥉"];
+  document.getElementById("finalTable").innerHTML = msg.leaderboard.map((p, i) =>
+    `<tr><td class="rank"><span class="medal">${medals[i]||(i+1)}</span></td><td>${p.name}</td><td class="pts">${p.score.toLocaleString()}</td></tr>`
+  ).join("");
 }
 </script>
-
 </body>
 </html>
